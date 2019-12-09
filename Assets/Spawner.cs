@@ -168,7 +168,7 @@ public class Spawner : MonoBehaviour {
         List<Vector2Int> exist = new List<Vector2Int>();
         foreach (Vector2Int n in exist)
         {
-            if (!n.Equals(matching))
+            if (!n.Equals(matching)) // Matching.Contiains(n) ??
             {
                 Debug.Log("Match?");
                 if (x >= 0 && x <= height && y >= 0 && y <= width)      // checks if cell coordiantes hits the borders
