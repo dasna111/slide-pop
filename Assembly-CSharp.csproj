@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5DC2DF47-843B-3BD6-E16C-8C35296C9539}</ProjectGuid>
+    <ProjectGuid>{0488EBE4-7988-A454-1D15-22B4C6CFDD4C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -67,31 +67,31 @@
     <Compile Include="Assets\Grid.cs" />
     <Compile Include="Assets\Spawner.cs" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/github/Tetris-Attack-Clone/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/unity/2019.2.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -618,7 +618,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{8234964A-F386-2537-03FA-DC4B054F193B}</Project>
+      <Project>{766F8895-9297-C4F8-609C-973CEF8D6B5B}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>
