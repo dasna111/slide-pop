@@ -168,7 +168,7 @@ public class Spawner : MonoBehaviour {
         List<Vector2Int> exist = new List<Vector2Int>();
         foreach (Vector2Int n in exist)
         {
-            if (!n.Equals(matching)) // Matching.Contiains(n) ??
+            if (matching.Contains(n))
             {
                 Debug.Log("Match?");
                 if (x >= 0 && x <= height && y >= 0 && y <= width)      // checks if cell coordiantes hits the borders
@@ -176,25 +176,25 @@ public class Spawner : MonoBehaviour {
                     if (data[x, y] == data[x + 1, y])
                     {
                         matching.AddRange(FindCellNeighbor(x + 1, y, matching));
-                        exist = matching;
+                        exist.AddRange(matching);
                         Debug.Log("x + 1");
                     }
                     if (data[x, y] == data[x - 1, y])
                     {
                         matching.AddRange(FindCellNeighbor(x - 1, y, matching));
-                        exist = matching;
+                        exist.AddRange(matching);
                         Debug.Log("x - 1");
                     }
                     if (data[x, y] == data[x, y + 1])
                     {
                         matching.AddRange(FindCellNeighbor(x, y + 1, matching));
-                        exist = matching;
+                        exist.AddRange(matching);
                         Debug.Log("y + 1");
                     }
                     if (data[x, y] == data[x, y - 1])
                     {
                         matching.AddRange(FindCellNeighbor(x, y - 1, matching));
-                        exist = matching;
+                        exist.AddRange(matching);
                         Debug.Log("y - 1");
                     }
                 }
