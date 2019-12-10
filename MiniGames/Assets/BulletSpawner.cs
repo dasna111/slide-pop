@@ -4,36 +4,37 @@ using UnityEngine;
 
 public class BulletSpawner : MonoBehaviour
 {
-    public float speedMult = 1.0f;
-    public float rangeMult = 1.0f;
-    // Use this for initialization
-    public GameObject bullet;
-    public float shootInterval = 1.0f;
-    float basex = 0.0f;
-    float shootTimeAc = 0.0f;
-    // Update is called once per frame
-    void Start()
+    public int numberOfProjectiles;
+    public float projectileSpeed;
+    public GameObject ProjectilePrefab;
+    private Vector2 startPoint;
+    private float Timer = 0;
+    private const float radius = 1F;
+
+    private void Update()
     {
-        basex = transform.position.x;
+        startPoint = transform.position;
+        SpawnProjectile(numberOfProjectiles);
+       
     }
-    void Update()
+
+    private void SpawnProjectile(int _numberOfProjectiles)
     {
-        Vector3 position = transform.position;
-        float interval = Mathf.Sin(Time.time * (speedMult / rangeMult)) * rangeMult;
-        bool shoot = false;
-        if (Time.deltaTime + shootTimeAc > shootInterval)
+        float angleStep = 360f / _numberOfProjectiles;
+        float angle = 0;
+        for (int i = 0; i <= _numberOfProjectiles -1; i++)
         {
-            shootTimeAc = 0.0f;
-            shoot = true;
+            float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180) * radius;
+            float projectileDirYPosition = startPoint.x + Mathf.Cos((angle * Mathf.PI) / 180) * radius;
+
+            Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
+            Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized * projectileSpeed;
+
+            GameObject tmpObj = Instantiate(ProjectilePrefab, startPoint, Quaternion.identity);
+            tmpObj.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileMoveDirection.x, projectileMoveDirection.y);
+
+            angle += angleStep;
         }
-
-        else
-            shootTimeAc += Time.deltaTime;
-
-        position.x = basex + interval;
-
-        transform.position = position;
-        if (shoot)
-            Instantiate(bullet, transform.position, bullet.transform.rotation);
     }
+
 }

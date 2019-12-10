@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A513BC8D-6A7D-D6C5-EEBE-D27CF600D276}</ProjectGuid>
+    <ProjectGuid>{C9091EBB-8636-D10E-F335-73DC6085CA9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -62,43 +62,45 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Bullet_Vampire.cs" />
     <Compile Include="Assets\BulletSpawner.cs" />
     <Compile Include="Assets\Cowboi\QuickDraw.cs" />
     <Compile Include="Assets\DukeMiniGame\Obstacles.cs" />
     <Compile Include="Assets\DukeMiniGame\PlayerMoves.cs" />
     <Compile Include="Assets\Fighter\Combo.cs" />
+    <Compile Include="Assets\Player_Vampire.cs" />
     <Compile Include="Assets\Sniper\Bullet.cs" />
     <Compile Include="Assets\Sniper\Scope.cs" />
     <Compile Include="Assets\Sniper\TargetHit.cs" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/github/Test/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/MiniGames/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/unity/2019.2.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
