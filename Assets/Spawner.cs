@@ -166,12 +166,12 @@ public class Spawner : MonoBehaviour {
     {
         matching.Add(new Vector2Int(x, y));
         List<Vector2Int> exist = new List<Vector2Int>();
-        foreach (Vector2Int n in exist)
-        {
-            if (matching.Contains(n))
-            {
+        //foreach (Vector2Int n in exist)
+        //{
+        //    if (matching.Contains(n))
+        //    {
                 Debug.Log("Match?");
-                if (x >= 0 && x <= height && y >= 0 && y <= width)      // checks if cell coordiantes hits the borders
+                if (x >= 0 && y <= height && y >= 0 && x <= width && data[x, y] != -1)      // checks if cell coordiantes hits the borders
                 {
                     if (data[x, y] == data[x + 1, y])
                     {
@@ -198,8 +198,8 @@ public class Spawner : MonoBehaviour {
                         Debug.Log("y - 1");
                     }
                 }
-            }
-        }
+            //}
+        //}
         return matching;
     }
     #endregion
