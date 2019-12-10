@@ -331,6 +331,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fighter
       objectReference: {fileID: 0}
+    - target: {fileID: 6605970457871109693, guid: 22da604a7c54e8542b0d1764717208d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6605970457871109692, guid: 22da604a7c54e8542b0d1764717208d1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -510,7 +515,7 @@ PrefabInstance:
     - target: {fileID: 7478639457108975970, guid: ba4ac5499d53b4943af029a56b152391,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba4ac5499d53b4943af029a56b152391, type: 3}
