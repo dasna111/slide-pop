@@ -8,7 +8,6 @@ public class BulletSpawner : MonoBehaviour
     public float projectileSpeed;
     public GameObject ProjectilePrefab;
     private Vector2 startPoint;
-    private float Timer = 0;
     private const float radius = 1F;
 
     private void Update()
@@ -25,7 +24,7 @@ public class BulletSpawner : MonoBehaviour
         for (int i = 0; i <= _numberOfProjectiles -1; i++)
         {
             float projectileDirXPosition = startPoint.x + Mathf.Sin((angle * Mathf.PI) / 180) * radius;
-            float projectileDirYPosition = startPoint.x + Mathf.Cos((angle * Mathf.PI) / 180) * radius;
+            float projectileDirYPosition = startPoint.y + Mathf.Cos((angle * Mathf.PI) / 180) * radius;
 
             Vector2 projectileVector = new Vector2(projectileDirXPosition, projectileDirYPosition);
             Vector2 projectileMoveDirection = (projectileVector - startPoint).normalized * projectileSpeed;

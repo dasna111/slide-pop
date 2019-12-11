@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,9 +32,16 @@ public class PlayerMoves : MonoBehaviour
         Timer.text = "Time Left:" + Mathf.Round(timeLeft);
         if (timeLeft < 0)
         {
-            DukeGameOver();
+            DukeGameWin();
         }
     }
+
+    private void DukeGameWin()
+    {
+        DukeGame.SetActive(false);
+        //TODO reference to main script    
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Cars"))
@@ -44,5 +52,6 @@ public class PlayerMoves : MonoBehaviour
     public void DukeGameOver()
     {
         DukeGame.SetActive(false);
+        //TODO reference to main script
     }
 }

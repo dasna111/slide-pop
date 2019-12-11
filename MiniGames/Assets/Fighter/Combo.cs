@@ -7,6 +7,10 @@ public class Combo : MonoBehaviour
     private Animation anim;
     public int CW;
 
+    public GameObject Game;
+    private float timer = 0;
+    private int score;
+
     void Update()
     { 
         anim = gameObject.GetComponent<Animation>();
@@ -17,9 +21,16 @@ public class Combo : MonoBehaviour
                 Haduken();
             if (selectedValue == 2)
                 HuricaneKick();
-            if (selectedValue == 1)
+            if (selectedValue == 3)
                 DragonPunch();
         }
+
+        timer += Time.deltaTime;
+        if (timer >= 5)
+            GameOver();
+        if (score == CW)
+            GameWin();
+            
     }
     public object Choose(object a, object b, params object[] p)
     {
@@ -28,6 +39,7 @@ public class Combo : MonoBehaviour
         if (random == 1) return b;
         return p[random - 2];
     }
+    #region Combos
     void Haduken ()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -37,6 +49,7 @@ public class Combo : MonoBehaviour
                  if (Input.GetKeyDown(KeyCode.RightArrow))
                  {
                    anim.Play("Haduken");
+                    score++ ;
                  }
              }
         }
@@ -51,7 +64,8 @@ public class Combo : MonoBehaviour
                  if (Input.GetKeyDown(KeyCode.LeftArrow))
                  {
                     anim.Play("HuricaneKick");
-                 }
+                    score++;
+                }
              }
          }
      }
@@ -65,10 +79,21 @@ public class Combo : MonoBehaviour
                         if (Input.GetKeyDown(KeyCode.DownArrow))
                         {
                             anim.Play("DragonPunch");
-                        }
+                            score++;
+                }
                 }
          }
        }
-       
-    
+    #endregion
+
+    private void GameOver()
+    {
+        Game.SetActive(false);
+        //TODO reference to main script
+    }
+    private void GameWin()
+    {
+        Game.SetActive(false);
+        //TODO reference to main script
+    }
 }

@@ -187,8 +187,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5935399958226476614, guid: c7f677b5e46a2134db9aef8cdc50f8a7,
+        type: 3}
+      propertyPath: CowBoi
+      value: 
+      objectReference: {fileID: 155942855}
+    - target: {fileID: 5935399958226476614, guid: c7f677b5e46a2134db9aef8cdc50f8a7,
+        type: 3}
+      propertyPath: spawnObject
+      value: 
+      objectReference: {fileID: 3959573403888898782, guid: 5d5ee958f79eedf4b86ff82cb6d0094d,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7f677b5e46a2134db9aef8cdc50f8a7, type: 3}
+--- !u!1 &155942855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5935399959764549936, guid: c7f677b5e46a2134db9aef8cdc50f8a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 155942854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1103598041
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209,17 +226,17 @@ PrefabInstance:
     - target: {fileID: 6605970457871109692, guid: 22da604a7c54e8542b0d1764717208d1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.3364997
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6605970457871109692, guid: 22da604a7c54e8542b0d1764717208d1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.74048436
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6605970457871109692, guid: 22da604a7c54e8542b0d1764717208d1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -53.04728
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6605970457871109692, guid: 22da604a7c54e8542b0d1764717208d1,
         type: 3}
@@ -261,8 +278,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6605970458596074226, guid: 22da604a7c54e8542b0d1764717208d1,
+        type: 3}
+      propertyPath: m_Name
+      value: Combo
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605970458596074224, guid: 22da604a7c54e8542b0d1764717208d1,
+        type: 3}
+      propertyPath: Game
+      value: 
+      objectReference: {fileID: 1103598042}
+    - target: {fileID: 6605970458596074224, guid: 22da604a7c54e8542b0d1764717208d1,
+        type: 3}
+      propertyPath: CW
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22da604a7c54e8542b0d1764717208d1, type: 3}
+--- !u!1 &1103598042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6605970457871109693, guid: 22da604a7c54e8542b0d1764717208d1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1103598041}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1323136430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8026207520196123826, guid: f9c86d247ee9ade43927810dbd8d2d9c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7807051345720960226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7478639455321248784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -429,6 +473,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8026207521871254100, guid: f9c86d247ee9ade43927810dbd8d2d9c,
+        type: 3}
+      propertyPath: Game
+      value: 
+      objectReference: {fileID: 1323136430}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9c86d247ee9ade43927810dbd8d2d9c, type: 3}
 --- !u!1001 &8860449590215003719
@@ -442,6 +491,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Vampire
+      objectReference: {fileID: 0}
+    - target: {fileID: 8860449590973563671, guid: 240179feefcfffb41bba761a5b0a3b9f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8860449590973563670, guid: 240179feefcfffb41bba761a5b0a3b9f,
         type: 3}
@@ -498,5 +552,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8860449591300439122, guid: 240179feefcfffb41bba761a5b0a3b9f,
+        type: 3}
+      propertyPath: VampireGame
+      value: 
+      objectReference: {fileID: 8860449590973563671, guid: 240179feefcfffb41bba761a5b0a3b9f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 240179feefcfffb41bba761a5b0a3b9f, type: 3}

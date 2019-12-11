@@ -6,6 +6,7 @@ public class QuickDraw : MonoBehaviour
 {
     //Spawn this object
     public GameObject spawnObject;
+    public GameObject CowBoi;
 
     public float maxTime = 5;
     public float minTime = 2;
@@ -17,8 +18,6 @@ public class QuickDraw : MonoBehaviour
 
     //The time to spawn the object
     private float spawnTime;
-
-    private int Score = 0;
 
     void Start()
     {
@@ -50,13 +49,25 @@ public class QuickDraw : MonoBehaviour
         ReactTime += Time.deltaTime;
         if (Input.anyKey && ReactTime < MaxReactTime)
         {
-            Score++;
+            CowBoiGameWin();
         }
+        if (ReactTime > MaxReactTime)
+            CowBoiGameOver();
     }
 
     //Sets the random time between minTime and maxTime
     void SetRandomTime()
     {
         spawnTime = Random.Range(minTime, maxTime);
+    }
+    private void CowBoiGameOver()
+    {
+        CowBoi.SetActive(false);
+        //TODO reference to main script
+    }
+    private void CowBoiGameWin()
+    {
+        CowBoi.SetActive(false);
+        //TODO reference to main script
     }
 }

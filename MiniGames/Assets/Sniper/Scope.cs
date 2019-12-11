@@ -10,6 +10,9 @@ public class Scope : MonoBehaviour
     public float maxdown;
     public int ammo;
     public GameObject Bullet;
+    public GameObject Game;
+    private float timer = 0;
+    public int targetCount;
 
     void Start()
     {
@@ -25,6 +28,13 @@ public class Scope : MonoBehaviour
             rb2d.AddForce(transform.up * Power);
             ammo--;
         }
+        if (TargetHit.score > targetCount-1)
+            GameWin();
+        timer += Time.deltaTime;
+        if (timer > 5 || ammo <= 0)
+            GameOver();
+        
+
 
         rb2d.AddForce(transform.up * -down);
 
@@ -36,5 +46,16 @@ public class Scope : MonoBehaviour
         {
             rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxup);
         }
+    }
+
+    private void GameOver()
+    {
+        Game.SetActive(false);
+        //TODO reference to main script
+    }
+    private void GameWin()
+    {
+        Game.SetActive(false);
+        //TODO reference to main script
     }
 }

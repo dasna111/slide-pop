@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class Player_Vampire : MonoBehaviour
 {
     //movement speed in units per second
     public float movementSpeed = 5f;
+    public GameObject VampireGame;
+    private float timer = 0;
 
     void Update()
     {
@@ -16,12 +19,27 @@ public class Player_Vampire : MonoBehaviour
 
         //update the position
         transform.position = transform.position + new Vector3(horizontalInput * movementSpeed * Time.deltaTime, verticalInput * movementSpeed * Time.deltaTime, 0);
+        timer += Time.deltaTime;
+        if (timer >= 5)
+            VampireGameWin();
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            Destroy(gameObject);
+            VampireGameOver();
         }
+    }
+
+    private void VampireGameOver()
+    {
+        VampireGame.SetActive(false);
+        //TODO reference to main script
+    }
+    private void VampireGameWin()
+    {
+        VampireGame.SetActive(false);
+        //TODO reference to main script
     }
 }

@@ -8,7 +8,6 @@ public class Obstacles : MonoBehaviour
     public Vector3 center;
     public Vector3 size;
     private float time = 0;
-    private float Timer = 0;
     public float SpawnEvery;
 
 
