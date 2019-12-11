@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8860449589899731236}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -43,10 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0540ad918ebb87e4baafc48a892b9cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfProjectiles: 40
-  projectileSpeed: 3
+  numberOfProjectiles: 20
+  projectileSpeed: 1
   ProjectilePrefab: {fileID: 3737511402464066573, guid: e12b256a136ba5d4c9eb334e34598cf2,
     type: 3}
+  ShoutEvery: 0.3
+  RotateBy: 10
+  RotateEvery: 0.3
 --- !u!1 &8860449590083590205
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8860449590229684451}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8860449590973563670}
@@ -214,8 +217,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0.4
+    height: 4
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -385,7 +388,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8860449591300439124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -7.39, z: 0}
+  m_LocalPosition: {x: 0, y: -3.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8860449590973563670}
@@ -490,6 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
+  VampireGame: {fileID: 8860449590973563671}
 --- !u!1 &8860449591501754101
 GameObject:
   m_ObjectHideFlags: 0

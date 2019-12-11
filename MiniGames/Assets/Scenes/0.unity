@@ -492,11 +492,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vampire
       objectReference: {fileID: 0}
-    - target: {fileID: 8860449590973563671, guid: 240179feefcfffb41bba761a5b0a3b9f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8860449590973563670, guid: 240179feefcfffb41bba761a5b0a3b9f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -552,11 +547,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8860449591300439122, guid: 240179feefcfffb41bba761a5b0a3b9f,
-        type: 3}
-      propertyPath: VampireGame
-      value: 
-      objectReference: {fileID: 8860449590973563671, guid: 240179feefcfffb41bba761a5b0a3b9f,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 240179feefcfffb41bba761a5b0a3b9f, type: 3}
