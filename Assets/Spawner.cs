@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using UnityEngine;
 
-public class Spawner : MonoBehaviour {
+public class Spawner : MonoBehaviour
+{
 
     public static Spawner Instance;
     public GameObject[] blocks;
+
+    public Transform[,] grid;
+    public ArrayList occupiedPos = new ArrayList();
+    private const float startPos = -2.5f;
 
     public int[,] data = null;
 
@@ -17,7 +22,7 @@ public class Spawner : MonoBehaviour {
 
     //private const float startPos = -2.5f;
 
-	private int previous = -1;
+    private int previous = -1;
 
     private float SpawnerTimer = 0;
     public float SpawnEvery;
@@ -42,19 +47,36 @@ public class Spawner : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void Setup ()
+    public void Start()
     {
+        //data = new int[11, 6]
+        //{
+        //    {-1, 1, 1 ,3 ,4 ,0},
+        //    {1, -1, -1 ,3 ,4 ,0},
+        //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
+        //};
+
 
         data = new int[height, width];
 
         for (int y = 0; y < startHeight; y++)
         {
-			for(int x = 0; x < width; x++)
+            for (int x = 0; x < width; x++)
             {
                 data[y, x] = GenerateBlock(x, y, previous);
-                previous = data[y, x];   
+                previous = data[y, x];
+                transform.position += new Vector3(1.0f, 0, 0);
             }
-		}
+            transform.position = new Vector3(startPos, transform.position.y + 1, transform.position.z);
+        }
 
         for (int y = startHeight; y < height; y++)
         {
@@ -64,8 +86,7 @@ public class Spawner : MonoBehaviour {
             }
         }
 
-                //MatchColumn();
-                //MatchRow();
+        Match();
     }
 
 
@@ -80,14 +101,11 @@ public class Spawner : MonoBehaviour {
             SpawnerTimer = SpawnerTimer - SpawnEvery;
 
         }
-            //if (Grid.Instance.changed)
-            //{
-            //    MatchColumn();
-            //    MatchRow();
-            //    Grid.Instance.changed = false;
-            //}
-
-            Match();
+        /* if (Input.GetKeyDown(KeyCode.Space))
+         {
+             SwapBlocks(CursorControls.leftX, CursorControls.rightX, CursorControls.cursorY);
+         }
+         */
     }
 
     private void SpawnNewLine()
@@ -100,25 +118,28 @@ public class Spawner : MonoBehaviour {
     private int Match()
     {
         List<Vector2Int> matchs = FindAllMatchs();
+        int combo = 0;
         RemoveMatchs(matchs);
         FallDown();
-
+        if(combo > 1)
+        GarbageBlocks(matchs, combo);
         return matchs.Count;
     }
 
     private List<Vector2Int> FindAllMatchs()
     {
         List<Vector2Int> matchs = new List<Vector2Int>();
-        List<Vector2Int> currentMatchs;
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
+                if (data[y, x] == -1)
+                    continue;
+
                 if (matchs.Contains(new Vector2Int(y, x)))
                     continue;
 
-                currentMatchs = FindMatchForCell(y, x);
-                matchs.AddRange(currentMatchs);
+                matchs.AddRange(FindMatchForCell(y, x));
             }
         }
 
@@ -133,6 +154,7 @@ public class Spawner : MonoBehaviour {
             data[coords.x, coords.y] = -1;
         }
     }
+
     private void FallDown()
     {
         for (int y = 1; y < height; y++)
@@ -141,64 +163,168 @@ public class Spawner : MonoBehaviour {
             {
                 if (data[y - 1, x] == -1)
                 {
-                    data[y - 1, x] = data[y, x];
-                    MoveRowDown(x, y);
+                    for (int z = y - 1; z < height - 1; z++)
+                        data[z, x] = data[z + 1, x];
+
                 }
             }
         }
     }
 
-    private void MoveRowDown(int x, int y)
+
+
+    private List<Vector2Int> FindMatchForCell(int y, int x)
     {
-        data[y, x] = data[y - 1, x];
+        //Debug.Log("Looking in  => " + y + " | " + x);
+        List<Vector2Int> matching = new List<Vector2Int>();
+
+        List<Vector2Int> row = FindRow(y, x);
+        List<Vector2Int> column = FindColumn(y, x);
+
+        if (row.Count > 2) matching.AddRange(row);
+        if (column.Count > 2) matching.AddRange(column);
+
+        return matching.Distinct().ToList();
     }
 
-    private List<Vector2Int> FindMatchForCell(int x, int y)
+    private List<Vector2Int> FindColumn(int y, int x)
     {
         List<Vector2Int> matching = new List<Vector2Int>();
-        matching.AddRange(FindCellNeighbor(x, y, matching));
-        return matching.Count < 3 ? new List<Vector2Int>() : matching;
+        matching.Add(new Vector2Int(y, x));
+
+        for (int _y = y + 1; _y < height; _y++) // Right side
+        {
+            if (data[_y, x] == data[y, x])
+                matching.Add(new Vector2Int(_y, x));
+            else
+                break;
+        }
+
+        for (int _y = y - 1; _y >= 0; _y--) // left side
+        {
+            if (data[_y, x] == data[y, x])
+                matching.Add(new Vector2Int(_y, x));
+            else
+                break;
+        }
+        return matching;
     }
 
-    // TODO check cells cordiantes if they exist in the list so we ignore them
+    private List<Vector2Int> FindRow(int y, int x)
+    {
+        List<Vector2Int> matching = new List<Vector2Int>();
+        matching.Add(new Vector2Int(y, x));
 
+        for (int _x = x + 1; _x < width; _x++) // Downward side
+        {
+            if (data[y, _x] == data[y, x])
+                matching.Add(new Vector2Int(y, _x));
+            else
+                break;
+        }
+
+        for (int _x = x - 1; _x >= 0; _x--) // upward side
+        {
+            if (data[y, _x] == data[y, x])
+                matching.Add(new Vector2Int(y, _x));
+            else
+                break;
+        }
+
+        return matching;
+    }
     private List<Vector2Int> FindCellNeighbor(int x, int y, List<Vector2Int> matching)
     {
-        matching.Add(new Vector2Int(x, y));
-        List<Vector2Int> exist = new List<Vector2Int>();
-        //foreach (Vector2Int n in exist)
+        matching.Add(new Vector2Int(y, x));
+
+        for (int _y = y + 1; _y < height; _y++) // Right side
+        {
+            if (data[_y, x] == data[y, x])
+                matching.Add(new Vector2Int(_y, x));
+            else
+                break;
+        }
+
+        for (int _y = y - 1; _y >= 0; _y--) // left side
+        {
+            if (data[_y, x] == data[y, x])
+                matching.Add(new Vector2Int(_y, x));
+            else
+                break;
+        }
+
+
+
+        for (int _x = x + 1; _x < width; _x++) // Downward side
+        {
+            if (data[y, _x] == data[y, x])
+                matching.Add(new Vector2Int(y, _x));
+            else
+                break;
+        }
+
+        for (int _x = x - 1; _x >= 0; _x--) // upward side
+        {
+            if (data[y, _x] == data[y, x])
+                matching.Add(new Vector2Int(y, _x));
+            else
+                break;
+        }
+
+        //List<Vector2Int> exist = new List<Vector2Int>();
+
+
+        //if (!matching.Contains(new Vector2Int(y + 1, x)) && x >= 0 && x < width && y < height  -1 && y >= 0 && data[y + 1, x] > -1)
         //{
-        //    if (matching.Contains(n))
+        //    Debug.Log("Match?");
+        //    if (data[y, x] == data[y + 1, x])
         //    {
-                Debug.Log("Match?");
-                if (x >= 0 && y <= height && y >= 0 && x <= width && data[x, y] != -1)      // checks if cell coordiantes hits the borders
-                {
-                    if (data[x, y] == data[x + 1, y])
-                    {
-                        matching.AddRange(FindCellNeighbor(x + 1, y, matching));
-                        exist.AddRange(matching);
-                        Debug.Log("x + 1");
-                    }
-                    if (data[x, y] == data[x - 1, y])
-                    {
-                        matching.AddRange(FindCellNeighbor(x - 1, y, matching));
-                        exist.AddRange(matching);
-                        Debug.Log("x - 1");
-                    }
-                    if (data[x, y] == data[x, y + 1])
-                    {
-                        matching.AddRange(FindCellNeighbor(x, y + 1, matching));
-                        exist.AddRange(matching);
-                        Debug.Log("y + 1");
-                    }
-                    if (data[x, y] == data[x, y - 1])
-                    {
-                        matching.AddRange(FindCellNeighbor(x, y - 1, matching));
-                        exist.AddRange(matching);
-                        Debug.Log("y - 1");
-                    }
-                }
-            //}
+        //        matching.AddRange(FindCellNeighbor(y + 1, x, matching));
+        //        //exist.Add(new Vector2Int(x, y));
+        //        Debug.Log("x + 1");
+        //    }
+        //}
+
+        //if (!matching.Contains(new Vector2Int(y - 1, x)) && x >= 0 && x < width && y < height && y > 0 && data[y - 1, x] > -1)
+        //{
+        //    if (data[y, x] == data[y - 1, x])
+        //    {
+        //        matching.AddRange(FindCellNeighbor(y - 1, x, matching));
+        //        //exist.Add(new Vector2Int(x, y));
+        //        Debug.Log("x - 1");
+        //    }
+        //}
+
+        //Debug.LogFormat("{0} | {1}", x,y);
+        //if (!matching.Contains(new Vector2Int(y, x + 1)) && x >= 0 && x < width - 1 && y < height && y >= 0 && data[y, x + 1] > -1)
+        //{
+        //    if (data[y, x] == data[y, x + 1])
+        //    {
+        //        matching.AddRange(FindCellNeighbor(y, x + 1, matching));
+        //        //exist.Add(new Vector2Int(x, y));
+        //        Debug.Log("x + 1");
+        //    }
+        //}
+
+        //if (!matching.Contains(new Vector2Int(y, x - 1)) && x > 0 && x < width && y < height && y >= 0 && data[y, x - 1] > -1)
+        //{
+        //    if (data[y, x] == data[y, x - 1])
+        //    {
+        //        matching.AddRange(FindCellNeighbor(y, x - 1, matching));
+        //        //exist.Add(new Vector2Int(x, y));
+        //        Debug.Log("x - 1");
+        //    }
+        //}
+
+
+
+        //foreach (Vector2Int n in matching)
+        //{
+        //    if (!exist.Contains(n))
+        //    {
+
+        //        }
+        //    }
         //}
         return matching;
     }
@@ -350,40 +476,101 @@ public class Spawner : MonoBehaviour {
 
     public void PushUp()
     {
-        for (int y = height - 1; y > 0 ; y--)
+
+        for (int x = 0; x < width; x++)
         {
-            for (int x = 0; x < width; x++)
+            for (int y = height - 1; y > 0; y--)
             {
                 data[y, x] = data[y - 1, x];
             }
         }
     }
 
-	public void GenerateRow(int row)
+    public void GenerateRow(int row)
     {
-		//transform.position = new Vector3(startPos, 0, 0);
-		
-		for(int x = 0; x < width; x++)
+        transform.position = new Vector3(startPos, 0, 0);
+
+        for (int x = 0; x < width; x++)
         {
             data[row, x] = GenerateBlock(x, row, -1);
-			//transform.position += new Vector3(1.0f, 0, 0);
-		}
 
-        //Grid.Instance.changed = true;
+            transform.position += new Vector3(1.0f, 0, 0);
+        }
+        Match();
+        transform.position = new Vector3(startPos, transform.position.y + 1, transform.position.z);
     }
 
-	public int GenerateBlock(int x, int y, int avoidIndex)
+    public int GenerateBlock(int x, int y, int avoidIndex)
     {
         int i = -1;
         do
         {
             i = UnityEngine.Random.Range(0, blocks.Length);
+            Instantiate(blocks[i], transform.position, Quaternion.identity);
         }
         while (i == -1 || i == avoidIndex);
 
-        //GameObject block = (GameObject)Instantiate (blocks [i], transform.position, Quaternion.identity);
-        //Grid.Instance.grid [x, y] = block.transform;
-
         return i;
-	}
+    }
+    private void GarbageBlocks(List<Vector2Int> matchs, int combo)
+    {
+        int GarbageBlockCount = matchs.Count * combo;
+
+        if(GarbageBlockCount > 24)
+        {
+
+        }
+        else if(GarbageBlockCount > 18)
+        {
+
+        }
+        else if (GarbageBlockCount > 12)
+        {
+
+        }
+        else if (GarbageBlockCount > 6)
+        {
+
+        }
+        else if (GarbageBlockCount > 0)
+        {
+
+        }
+    }
+
+    /*public void SwapBlocks(int leftX, int rightX, int cursorY)
+    {
+        Transform leftBlock = grid[leftX, cursorY],
+                  rightBlock = grid[rightX, cursorY];
+
+        if (leftBlock == null && rightBlock == null)
+        {
+            Match();
+            return;
+        }
+        Vector3 leftPos = new Vector3((float)leftX - 2.5f, (float)cursorY, 0),
+                rightPos = new Vector3((float)rightX - 2.5f, (float)cursorY, 0);
+
+        if (leftBlock == null)
+        {
+            grid[leftX, cursorY] = rightBlock;
+            rightBlock.position = leftPos;
+            grid[rightX, cursorY] = null;
+        }
+        else if (rightBlock == null)
+        {
+            grid[rightX, cursorY] = leftBlock;
+            leftBlock.position = rightPos;
+            grid[leftX, cursorY] = null;
+        }
+        else
+        {
+            grid[leftX, cursorY].position = rightPos;
+            grid[rightX, cursorY].position = leftPos;
+            grid[leftX, cursorY] = rightBlock;
+            grid[rightX, cursorY] = leftBlock;
+        }
+
+        Match();
+    }*/
 }
