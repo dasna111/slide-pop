@@ -3,24 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-
     public static Spawner Instance;
+
     public GameObject[] blocks;
 
-    public Transform[,] grid;
-    public ArrayList occupiedPos = new ArrayList();
-    private const float startPos = -2.5f;
+    [SerializeField] private Transform startAnchor;
+    public Sprite[] GarbageBlock;
+
+    //public Transform[,] grid;
+    //public ArrayList occupiedPos = new ArrayList();
+    
 
     public int[,] data = null;
+    public GameObject[,] cubes = null;
+
 
     public int width = 6;
     public int height = 11;
     [SerializeField] private int startHeight = 6;
 
-    //private const float startPos = -2.5f;
+    private const float startPos = -2.5f;
 
     private int previous = -1;
 
@@ -66,16 +72,16 @@ public class Spawner : MonoBehaviour
 
 
         data = new int[height, width];
+        cubes = new GameObject[height, width];
 
         for (int y = 0; y < startHeight; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                data[y, x] = GenerateBlock(x, y, previous);
+                data[y, x] = GenerateBlock(y, x, previous);
+                cubes[y, x] = Instantiate(blocks[data[y, x]], GetPosition(y, x), Quaternion.identity);
                 previous = data[y, x];
-                transform.position += new Vector3(1.0f, 0, 0);
             }
-            transform.position = new Vector3(startPos, transform.position.y + 1, transform.position.z);
         }
 
         for (int y = startHeight; y < height; y++)
@@ -83,29 +89,32 @@ public class Spawner : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 data[y, x] = -1;
+                cubes[y, x] = null;
             }
         }
 
-        Match();
+        LoopMatch();
     }
 
+    private void LoopMatch()
+    {
+        int count = Match();
+        while (count > 0) count = Match();
+    }
 
-
-    // Update is called once per frame
     void Update()
     {
-        SpawnerTimer = SpawnerTimer + Time.deltaTime;
-        if (SpawnerTimer >= SpawnEvery || Input.GetKeyDown(KeyCode.Z))
-        {
-            SpawnNewLine();
-            SpawnerTimer = SpawnerTimer - SpawnEvery;
+        SpawnNewLineLoop();
+    }
 
-        }
-        /* if (Input.GetKeyDown(KeyCode.Space))
-         {
-             SwapBlocks(CursorControls.leftX, CursorControls.rightX, CursorControls.cursorY);
-         }
-         */
+    private void SpawnNewLineLoop()
+    {
+        SpawnerTimer += Time.deltaTime;
+        if (SpawnerTimer < SpawnEvery && !Input.GetKeyDown(KeyCode.Z))
+            return;
+
+        SpawnNewLine();
+        SpawnerTimer = 0;
     }
 
     private void SpawnNewLine()
@@ -118,11 +127,11 @@ public class Spawner : MonoBehaviour
     private int Match()
     {
         List<Vector2Int> matchs = FindAllMatchs();
-        int combo = 0;
+        int combo = 1;
         RemoveMatchs(matchs);
         FallDown();
-        if(combo > 1)
-        GarbageBlocks(matchs, combo);
+        if(matchs.Count > 3) // matchs
+            GarbageBlocks(matchs, combo);
         return matchs.Count;
     }
 
@@ -152,6 +161,7 @@ public class Spawner : MonoBehaviour
         {
             var coords = matchs[i];
             data[coords.x, coords.y] = -1;
+            Destroy(cubes[coords.x, coords.y]);
         }
     }
 
@@ -163,15 +173,17 @@ public class Spawner : MonoBehaviour
             {
                 if (data[y - 1, x] == -1)
                 {
-                    for (int z = y - 1; z < height - 1; z++)
+                    for (int z = y - 1; z < height - 1; z++) { 
                         data[z, x] = data[z + 1, x];
+                        cubes[z, x] = cubes[z + 1, x];
 
+                        if (cubes[z, x])
+                            cubes[z, x].transform.position = GetPosition(z, x);
+                    }
                 }
             }
         }
     }
-
-
 
     private List<Vector2Int> FindMatchForCell(int y, int x)
     {
@@ -233,6 +245,8 @@ public class Spawner : MonoBehaviour
 
         return matching;
     }
+
+    /*
     private List<Vector2Int> FindCellNeighbor(int x, int y, List<Vector2Int> matching)
     {
         matching.Add(new Vector2Int(y, x));
@@ -327,9 +341,27 @@ public class Spawner : MonoBehaviour
         //    }
         //}
         return matching;
-    }
+    }*/
     #endregion
 
+    public void Switch(int leftX, int rightX, int cursorY)
+    {
+        int temp = data[cursorY, leftX];
+        data[cursorY, leftX] = data[cursorY, rightX];
+        data[cursorY, rightX] = temp;
+
+        var tempGO = cubes[cursorY, leftX];
+        cubes[cursorY, leftX] = cubes[cursorY, rightX];
+        cubes[cursorY, rightX] = tempGO;
+
+        if(cubes[cursorY, leftX])
+            cubes[cursorY, leftX].transform.position = GetPosition(cursorY, leftX);
+
+        if (cubes[cursorY, rightX])
+            cubes[cursorY, rightX].transform.position = GetPosition(cursorY, rightX);
+
+        LoopMatch();
+    }
 
     /*
     private void MatchRow()
@@ -476,101 +508,118 @@ public class Spawner : MonoBehaviour
 
     public void PushUp()
     {
-
-        for (int x = 0; x < width; x++)
+        for (int y = height - 1; y > 0; y--)
         {
-            for (int y = height - 1; y > 0; y--)
+            for (int x = 0; x < width; x++)
             {
                 data[y, x] = data[y - 1, x];
+                cubes[y, x] = cubes[y - 1, x];
+
+                if (cubes[y, x])
+                    cubes[y, x].transform.position = GetPosition(y, x);
             }
         }
     }
 
     public void GenerateRow(int row)
     {
-        transform.position = new Vector3(startPos, 0, 0);
-
         for (int x = 0; x < width; x++)
         {
-            data[row, x] = GenerateBlock(x, row, -1);
-
-            transform.position += new Vector3(1.0f, 0, 0);
+            data[row, x] = GenerateBlock(row, x, -1);
+            cubes[row, x] = Instantiate(blocks[data[row, x]], GetPosition(row, x), Quaternion.identity);
         }
-        Match();
-        transform.position = new Vector3(startPos, transform.position.y + 1, transform.position.z);
+
+        LoopMatch();
     }
 
-    public int GenerateBlock(int x, int y, int avoidIndex)
+    public int GenerateBlock(int y, int x, int avoidIndex)
     {
         int i = -1;
         do
         {
-            i = UnityEngine.Random.Range(0, blocks.Length);
-            Instantiate(blocks[i], transform.position, Quaternion.identity);
+            i = Random.Range(0, blocks.Length);
         }
         while (i == -1 || i == avoidIndex);
 
         return i;
     }
-    private void GarbageBlocks(List<Vector2Int> matchs, int combo)
+
+    private Vector3 GetPosition(int y, int x)
     {
-        int GarbageBlockCount = matchs.Count * combo;
-
-        if(GarbageBlockCount > 24)
-        {
-
-        }
-        else if(GarbageBlockCount > 18)
-        {
-
-        }
-        else if (GarbageBlockCount > 12)
-        {
-
-        }
-        else if (GarbageBlockCount > 6)
-        {
-
-        }
-        else if (GarbageBlockCount > 0)
-        {
-
-        }
+        return new Vector3(startAnchor.position.x + (x * 1f), startAnchor.position.y + (y * 1f), 0f);
     }
 
-    /*public void SwapBlocks(int leftX, int rightX, int cursorY)
+
+    public T Choose<T>(T a, T b, params T[] p)
     {
-        Transform leftBlock = grid[leftX, cursorY],
-                  rightBlock = grid[rightX, cursorY];
+        int random = Random.Range(0, p.Length + 2);
+        if (random == 0) return a;
+        if (random == 1) return b;
+        return p[random - 2];
+    }
 
-        if (leftBlock == null && rightBlock == null)
-        {
-            Match();
-            return;
-        }
-        Vector3 leftPos = new Vector3((float)leftX - 2.5f, (float)cursorY, 0),
-                rightPos = new Vector3((float)rightX - 2.5f, (float)cursorY, 0);
 
-        if (leftBlock == null)
-        {
-            grid[leftX, cursorY] = rightBlock;
-            rightBlock.position = leftPos;
-            grid[rightX, cursorY] = null;
+    private void GarbageBlocks(List<Vector2Int> matchs, int combo)
+    {
+        Vector2 Pos6 = new Vector2(0, 10);
+        Vector2 Pos12 = new Vector2(0, 9.5f);
+        Vector2 Pos18 = new Vector2(0, 9);
+        Vector2 Pos24 = new Vector2(0, 8.5f);
+        Vector2 Pos30 = new Vector2(0, 8);
+        Vector2 RandPos5 = new Vector2(Choose<float>(-0.5f, 0.5f), 10);
+        Vector2 RandPos4 = new Vector2(Choose<int>(-1, 1), 10);
+        Vector2 RandPos3 = new Vector2(Choose<float>(-1.5f, 1.5f), 10);
+        Vector2 RandPos2 = new Vector2(Choose<int>(-2, 2), 10);
+        int GarbageBlockCount = matchs.Count * combo;
+        print(GarbageBlockCount);
+        while (GarbageBlockCount > 0) {
+            if (GarbageBlockCount > 30)
+            {
+                GarbageBlockCount -= 30;
+                Instantiate(GarbageBlock[0], Pos30, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 24)
+            {
+                GarbageBlockCount -= 24;
+                Instantiate(GarbageBlock[1], Pos24, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 18)
+            {
+                GarbageBlockCount -= 18;
+                Instantiate(GarbageBlock[2], Pos18, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 12)
+            {
+                GarbageBlockCount -= 12;
+                Instantiate(GarbageBlock[3], Pos12, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 6)
+            {
+                GarbageBlockCount -= 6;
+                Instantiate(GarbageBlock[4], Pos6, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 5)
+            {
+                 GarbageBlockCount -= 5;
+                Instantiate(GarbageBlock[5], RandPos5, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 4)
+            {
+                GarbageBlockCount -= 4;
+                Instantiate(GarbageBlock[6], RandPos4, Quaternion.identity);
+            }
+            if (GarbageBlockCount > 3)
+            {
+                GarbageBlockCount -= 3;
+                Instantiate(GarbageBlock[7], RandPos3, Quaternion.identity);
+            }
+            else if (GarbageBlockCount > 2)
+            {
+                GarbageBlockCount -= 2;
+                Instantiate(GarbageBlock[8], RandPos2, Quaternion.identity);
+            }
+            FallDown();
         }
-        else if (rightBlock == null)
-        {
-            grid[rightX, cursorY] = leftBlock;
-            leftBlock.position = rightPos;
-            grid[leftX, cursorY] = null;
-        }
-        else
-        {
-            grid[leftX, cursorY].position = rightPos;
-            grid[rightX, cursorY].position = leftPos;
-            grid[leftX, cursorY] = rightBlock;
-            grid[rightX, cursorY] = leftBlock;
-        }
-
-        Match();
-    }*/
+        
+    }
 }

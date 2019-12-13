@@ -36,5 +36,9 @@ public class CursorControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow))
             if (transform.position.x < 2)
                 transform.position += new Vector3(1, 0, 0);
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Spawner.Instance.Switch(leftX, rightX, cursorY);
     }
 }
