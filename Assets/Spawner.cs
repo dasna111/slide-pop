@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
@@ -12,7 +13,7 @@ public class Spawner : MonoBehaviour
     public GameObject[] blocks;
 
     [SerializeField] private Transform startAnchor;
-    public Sprite[] GarbageBlock;
+    public GameObject[] GarbageBlock;
 
     //public Transform[,] grid;
     //public ArrayList occupiedPos = new ArrayList();
@@ -32,6 +33,9 @@ public class Spawner : MonoBehaviour
 
     private float SpawnerTimer = 0;
     public float SpawnEvery;
+    private int PanicSpawn;
+    public float PanicTimer;
+    private bool Matching;
 
 
     //   private int? prev = null;
@@ -110,7 +114,7 @@ public class Spawner : MonoBehaviour
     private void SpawnNewLineLoop()
     {
         SpawnerTimer += Time.deltaTime;
-        if (SpawnerTimer < SpawnEvery && !Input.GetKeyDown(KeyCode.Z))
+        if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.Z))
             return;
 
         SpawnNewLine();
@@ -126,12 +130,14 @@ public class Spawner : MonoBehaviour
     #region Match
     private int Match()
     {
-        List<Vector2Int> matchs = FindAllMatchs();
+        List<Vector2Int> matchs = new List<Vector2Int>();
+        matchs = FindAllMatchs();
         int combo = 1;
         RemoveMatchs(matchs);
         FallDown();
-        if(matchs.Count > 3) // matchs
-            GarbageBlocks(matchs, combo);
+        /*if(matchs.Count > 3) // matchs
+            GarbageBlocks(matchs, combo);*/
+        Matching = true;
         return matchs.Count;
     }
 
@@ -528,8 +534,36 @@ public class Spawner : MonoBehaviour
             data[row, x] = GenerateBlock(row, x, -1);
             cubes[row, x] = Instantiate(blocks[data[row, x]], GetPosition(row, x), Quaternion.identity);
         }
-
         LoopMatch();
+        //FullBoard();
+    }
+
+    private void FullBoard()
+    {
+        for (int i = 0; i <width; i++)
+        {
+            if(data[height, width] != null)
+            {
+                Panic();
+            }
+        }
+       
+    }
+
+    private void Panic()
+    {
+        PanicSpawn = 90;
+        PanicTimer -= Time.deltaTime;
+        if (PanicTimer < 0 && !Matching)
+            GameOver();
+        else
+            PanicSpawn = 0;
+    }
+
+                
+    private void GameOver()
+    {
+        SceneManager.LoadScene(scenename);
     }
 
     public int GenerateBlock(int y, int x, int avoidIndex)
@@ -559,67 +593,89 @@ public class Spawner : MonoBehaviour
     }
 
 
-    private void GarbageBlocks(List<Vector2Int> matchs, int combo)
+    /*
+     private void GarbageBlocks(List<Vector2Int> matchs, int combo)
     {
-        Vector2 Pos6 = new Vector2(0, 10);
-        Vector2 Pos12 = new Vector2(0, 9.5f);
-        Vector2 Pos18 = new Vector2(0, 9);
-        Vector2 Pos24 = new Vector2(0, 8.5f);
-        Vector2 Pos30 = new Vector2(0, 8);
-        Vector2 RandPos5 = new Vector2(Choose<float>(-0.5f, 0.5f), 10);
-        Vector2 RandPos4 = new Vector2(Choose<int>(-1, 1), 10);
-        Vector2 RandPos3 = new Vector2(Choose<float>(-1.5f, 1.5f), 10);
-        Vector2 RandPos2 = new Vector2(Choose<int>(-2, 2), 10);
+        Vector2 Pos = new Vector2(-3, 10);
+        int Rand5X = Choose(-3, -2);
+        Vector2 RandPos5 = new Vector2(Rand5X, 10);
+        int Rand4X = Choose(-3, -1);
+        Vector2 RandPos4 = new Vector2(Rand4X, 10);
+        int Rand3X = Choose(-3, 0);
+        Vector2 RandPos3 = new Vector2(Rand3X, 10);
+        int Rand2X = Choose(-3, 1);
+        Vector2 RandPos2 = new Vector2(Rand2X, 10);
+        int Rand1X = Choose(-3, 2);
+        Vector2 RandPos1 = new Vector2(Rand1X, 10);
         int GarbageBlockCount = matchs.Count * combo;
         print(GarbageBlockCount);
         while (GarbageBlockCount > 0) {
-            if (GarbageBlockCount > 30)
+           if (GarbageBlockCount >= 30)
             {
                 GarbageBlockCount -= 30;
-                Instantiate(GarbageBlock[0], Pos30, Quaternion.identity);
+                cubes[10, -3] = Instantiate(GarbageBlock[0], Pos, Quaternion.identity);
+                print("Spawn 30");
             }
-            if (GarbageBlockCount > 24)
+            if (GarbageBlockCount >= 24)
             {
                 GarbageBlockCount -= 24;
-                Instantiate(GarbageBlock[1], Pos24, Quaternion.identity);
+                cubes[10, -3] = Instantiate(GarbageBlock[1], Pos, Quaternion.identity);
+                print("Spawn 24");
             }
-            if (GarbageBlockCount > 18)
+            if (GarbageBlockCount >= 18)
             {
                 GarbageBlockCount -= 18;
-                Instantiate(GarbageBlock[2], Pos18, Quaternion.identity);
+                cubes[10, -3] = Instantiate(GarbageBlock[2], Pos, Quaternion.identity);
+                print("Spawn 18");
             }
-            if (GarbageBlockCount > 12)
+            if (GarbageBlockCount >= 12)
             {
                 GarbageBlockCount -= 12;
-                Instantiate(GarbageBlock[3], Pos12, Quaternion.identity);
+                cubes[10, -3] = Instantiate(GarbageBlock[3], Pos, Quaternion.identity);
+                print("Spawn 12");
             }
-            if (GarbageBlockCount > 6)
+            if (GarbageBlockCount >= 6)
             {
                 GarbageBlockCount -= 6;
-                Instantiate(GarbageBlock[4], Pos6, Quaternion.identity);
+                cubes[10, -3] = Instantiate(GarbageBlock[4], Pos, Quaternion.identity);
+                print("Spawn 6");
             }
-            if (GarbageBlockCount > 5)
+            if (GarbageBlockCount >= 5)
             {
                  GarbageBlockCount -= 5;
-                Instantiate(GarbageBlock[5], RandPos5, Quaternion.identity);
+                cubes[10, Rand5X] = Instantiate(GarbageBlock[5], RandPos5, Quaternion.identity);
+                print("Spawn 5");
             }
-            if (GarbageBlockCount > 4)
+            if (GarbageBlockCount >= 4)
             {
                 GarbageBlockCount -= 4;
-                Instantiate(GarbageBlock[6], RandPos4, Quaternion.identity);
+                cubes[10, Rand4X] = Instantiate(GarbageBlock[6], RandPos4, Quaternion.identity);
+                print("Spawn 4");
             }
-            if (GarbageBlockCount > 3)
+            if (GarbageBlockCount >= 3)
             {
                 GarbageBlockCount -= 3;
-                Instantiate(GarbageBlock[7], RandPos3, Quaternion.identity);
+                cubes[10, Rand3X] = Instantiate(GarbageBlock[7], RandPos3, Quaternion.identity);
+                print("Spawn 3");
             }
-            else if (GarbageBlockCount > 2)
+            if (GarbageBlockCount >= 2)
             {
                 GarbageBlockCount -= 2;
-                Instantiate(GarbageBlock[8], RandPos2, Quaternion.identity);
+                cubes[10, Rand2X] = Instantiate(GarbageBlock[8], RandPos2, Quaternion.identity);
+                print("Spawn 2");
             }
+            if (GarbageBlockCount >= 1)
+            {
+                GarbageBlockCount -= 1;
+                cubes[10, Rand1X] = Instantiate(GarbageBlock[9], RandPos1, Quaternion.identity);
+                print("Spawn 1");
+            }
+            else
+                break;
             FallDown();
         }
         
-    }
+    }*/
+
+    
 }
