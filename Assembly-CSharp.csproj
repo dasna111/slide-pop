@@ -62,9 +62,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Bullet_Vampire.cs" />
+    <Compile Include="Assets\BulletSpawner.cs" />
+    <Compile Include="Assets\Cowboi\QuickDraw.cs" />
     <Compile Include="Assets\CursorControls.cs" />
     <Compile Include="Assets\DebuggerBox.cs" />
+    <Compile Include="Assets\DukeMiniGame\Obstacles.cs" />
+    <Compile Include="Assets\DukeMiniGame\PlayerMoves.cs" />
+    <Compile Include="Assets\Fighter\Combo.cs" />
     <Compile Include="Assets\Grid.cs" />
+    <Compile Include="Assets\Player_Vampire.cs" />
+    <Compile Include="Assets\Sniper\Bullet.cs" />
+    <Compile Include="Assets\Sniper\Scope.cs" />
+    <Compile Include="Assets\Sniper\TargetHit.cs" />
     <Compile Include="Assets\Spawner.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/github/Tetris-Attack-Clone/slide-pop/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

@@ -35,7 +35,14 @@ public class Spawner : MonoBehaviour
     public float SpawnEvery;
     private int PanicSpawn;
     public float PanicTimer;
-    private bool Matching;
+    private bool Matching = false;
+    private bool Won;
+    private string CharacterName;
+    private string CharacterGame;
+    private float MiniGameTimer;
+    private int combo;
+    public float blockMoveTime;
+    public GameObject Ceiling;
 
 
     //   private int? prev = null;
@@ -96,8 +103,23 @@ public class Spawner : MonoBehaviour
                 cubes[y, x] = null;
             }
         }
-
         LoopMatch();
+        MiniGame();
+    }
+    public void MiniGame()
+    {
+        MiniGameTimer -= combo;
+        MiniGameTimer -= Time.deltaTime;
+        if (MiniGameTimer <= 0)
+        {
+            SceneManager.LoadScene(2);
+                if (Won)
+                {
+                    height--;
+                    Ceiling.transform.position = new Vector3(0, -1, 0);
+                    Won = false;
+                }
+        }
     }
 
     private void LoopMatch()
@@ -114,9 +136,17 @@ public class Spawner : MonoBehaviour
     private void SpawnNewLineLoop()
     {
         SpawnerTimer += Time.deltaTime;
+        for (int x = 0; x < width; x++)
+        {
+            
+            if (data[height-1, x] != -1)
+            {
+                Panic();
+                Debug.Log("PANIC!!!!");
+            }
+        }
         if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.Z))
             return;
-
         SpawnNewLine();
         SpawnerTimer = 0;
     }
@@ -132,11 +162,14 @@ public class Spawner : MonoBehaviour
     {
         List<Vector2Int> matchs = new List<Vector2Int>();
         matchs = FindAllMatchs();
-        int combo = 1;
+        combo = 1;
         RemoveMatchs(matchs);
         FallDown();
-        /*if(matchs.Count > 3) // matchs
-            GarbageBlocks(matchs, combo);*/
+        if (matchs.Count > 3) // matchs
+        {
+            combo = combo * matchs.Count;
+            MiniGame();
+        }
         Matching = true;
         return matchs.Count;
     }
@@ -366,6 +399,9 @@ public class Spawner : MonoBehaviour
         if (cubes[cursorY, rightX])
             cubes[cursorY, rightX].transform.position = GetPosition(cursorY, rightX);
 
+        iTween.MoveTo(cubes[cursorY, rightX], cubes[cursorY, rightX].transform.position, blockMoveTime);
+        iTween.MoveTo(cubes[cursorY, leftX], cubes[cursorY, leftX].transform.position, blockMoveTime);
+
         LoopMatch();
     }
 
@@ -535,26 +571,13 @@ public class Spawner : MonoBehaviour
             cubes[row, x] = Instantiate(blocks[data[row, x]], GetPosition(row, x), Quaternion.identity);
         }
         LoopMatch();
-        //FullBoard();
-    }
-
-    private void FullBoard()
-    {
-        for (int i = 0; i <width; i++)
-        {
-            if(data[height, width] != null)
-            {
-                Panic();
-            }
-        }
-       
     }
 
     private void Panic()
     {
         PanicSpawn = 90;
         PanicTimer -= Time.deltaTime;
-        if (PanicTimer < 0 && !Matching)
+        if (PanicTimer < 0)
             GameOver();
         else
             PanicSpawn = 0;
@@ -563,7 +586,8 @@ public class Spawner : MonoBehaviour
                 
     private void GameOver()
     {
-        SceneManager.LoadScene(scenename);
+        Debug.Log("Game Over");
+        SceneManager.LoadScene(0);
     }
 
     public int GenerateBlock(int y, int x, int avoidIndex)
