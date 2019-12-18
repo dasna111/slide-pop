@@ -104,16 +104,18 @@ public class Spawner : MonoBehaviour
             }
         }
         LoopMatch();
-        MiniGame();
+        MiniGame(Won);
     }
-    public void MiniGame()
+    public void MiniGame(object won)
     {
         MiniGameTimer -= combo;
         MiniGameTimer -= Time.deltaTime;
+        if(Input.GetKeyDown(KeyCode.M))
+            Ceiling.transform.position = new Vector3(0, -1, 0);
         if (MiniGameTimer <= 0)
         {
-            SceneManager.LoadScene(2);
-                if (Won)
+            //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y - 20, Camera.main.transform.position.z); // Mini game should be 20 lines lower than actual game
+            if (Won)
                 {
                     height--;
                     Ceiling.transform.position = new Vector3(0, -1, 0);
@@ -168,7 +170,7 @@ public class Spawner : MonoBehaviour
         if (matchs.Count > 3) // matchs
         {
             combo = combo * matchs.Count;
-            MiniGame();
+            MiniGame(Won);
         }
         Matching = true;
         return matchs.Count;

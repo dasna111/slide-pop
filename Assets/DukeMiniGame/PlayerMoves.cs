@@ -48,12 +48,13 @@ public class PlayerMoves : MonoBehaviour
         if (other.CompareTag("Cars"))
         { 
             DukeGameOver();
-            Spawner.Instance.MiniGame(Won);
+           
         }
     }
     public void DukeGameOver()
     {
         DukeGame.SetActive(false);
-        //TODO reference to main script
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 20, Camera.main.transform.position.z);
+        Spawner.Instance.MiniGame(Won);
     }
 }
