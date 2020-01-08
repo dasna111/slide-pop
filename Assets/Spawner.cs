@@ -42,13 +42,14 @@ public class Spawner : MonoBehaviour
     private float MiniGameTimer;
     private int combo;
     public float blockMoveTime;
-    public GameObject Ceiling;
+    public GameObject Ceiling = null;
+    private Vector3 CeilingStart = new Vector3(-3, 10, 0);
 
 
     //   private int? prev = null;
-    //private int? curr = null;
+    //   private int? curr = null;
 
-    //private int prevCount = 0;
+    //   private int prevCount = 0;
     //   private object prevBlock;
 
     //   private bool Finished;
@@ -105,22 +106,24 @@ public class Spawner : MonoBehaviour
         }
         LoopMatch();
         MiniGame(Won);
+        Ceiling.transform.position = CeilingStart;
     }
     public void MiniGame(object won)
     {
         MiniGameTimer -= combo;
         MiniGameTimer -= Time.deltaTime;
-        if(Input.GetKeyDown(KeyCode.M))
-            Ceiling.transform.position = new Vector3(0, -1, 0);
+        if (Input.GetKeyDown(KeyCode.M)) {
+            Ceiling.transform.position += new Vector3(0, -1, 0);
+        }
         if (MiniGameTimer <= 0)
         {
             //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y - 20, Camera.main.transform.position.z); // Mini game should be 20 lines lower than actual game
             if (Won)
-                {
-                    height--;
-                    Ceiling.transform.position = new Vector3(0, -1, 0);
-                    Won = false;
-                }
+            {
+                height--;
+                Ceiling.transform.position += new Vector3(0, -1, 0);
+                Won = false;
+            }
         }
     }
 
