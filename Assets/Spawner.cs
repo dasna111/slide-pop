@@ -108,13 +108,19 @@ public class Spawner : MonoBehaviour
         MiniGame(Won);
         Ceiling.transform.position = CeilingStart;
     }
+
+    public void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Ceiling.transform.position += new Vector3(0, -1, 0);
+            height--;
+        }
+    }
     public void MiniGame(object won)
     {
         MiniGameTimer -= combo;
         MiniGameTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.M)) {
-            Ceiling.transform.position += new Vector3(0, -1, 0);
-        }
         if (MiniGameTimer <= 0)
         {
             //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y - 20, Camera.main.transform.position.z); // Mini game should be 20 lines lower than actual game
