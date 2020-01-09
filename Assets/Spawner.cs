@@ -44,6 +44,7 @@ public class Spawner : MonoBehaviour
     public float blockMoveTime;
     public GameObject Ceiling = null;
     private Vector3 CeilingStart = new Vector3(-3, 10, 0);
+    public GameObject CursorControll;
 
 
     //   private int? prev = null;
@@ -582,6 +583,7 @@ public class Spawner : MonoBehaviour
             data[row, x] = GenerateBlock(row, x, -1);
             cubes[row, x] = Instantiate(blocks[data[row, x]], GetPosition(row, x), Quaternion.identity);
         }
+        CursorControll.transform.position += new Vector3(0, 1, 0);
         LoopMatch();
     }
 
