@@ -130,7 +130,8 @@ public class Spawner : MonoBehaviour
     private void LoopMatch()
     {
         int count = Match();
-        while (count > 0) count = Match();
+        while (count > 0)
+            count = Match();
     }
 
     void Update()
@@ -404,8 +405,8 @@ public class Spawner : MonoBehaviour
         if (cubes[cursorY, rightX])
             cubes[cursorY, rightX].transform.position = GetPosition(cursorY, rightX);
 
-        iTween.MoveTo(cubes[cursorY, rightX], cubes[cursorY, rightX].transform.position, blockMoveTime);
-        iTween.MoveTo(cubes[cursorY, leftX], cubes[cursorY, leftX].transform.position, blockMoveTime);
+        //iTween.MoveTo(cubes[cursorY, rightX], cubes[cursorY, rightX].transform.position, blockMoveTime);
+        //iTween.MoveTo(cubes[cursorY, leftX], cubes[cursorY, leftX].transform.position, blockMoveTime);
 
         LoopMatch();
     }
