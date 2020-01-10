@@ -11,7 +11,9 @@ public class CharacterSelect : MonoBehaviour
     public Vector3 Player2Position;
 
     public Characters[] characters;
+
     public GameObject characterSelectPanel;
+
     public void OnCharacterSelect(int characterChoice)
     {
         if(Player1 == null)
