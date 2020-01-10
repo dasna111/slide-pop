@@ -68,6 +68,7 @@
     <Compile Include="Assets\CharacterSelect.cs" />
     <Compile Include="Assets\Cowboi\QuickDraw.cs" />
     <Compile Include="Assets\CursorControls.cs" />
+    <Compile Include="Assets\CursorControls2.cs" />
     <Compile Include="Assets\DebugBox2.cs" />
     <Compile Include="Assets\DebuggerBox.cs" />
     <Compile Include="Assets\DukeMiniGame\Obstacles.cs" />

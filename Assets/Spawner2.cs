@@ -27,7 +27,7 @@ public class Spawner2 : MonoBehaviour
     public int height = 11;
     [SerializeField] private int startHeight = 6;
 
-    private const float startPos = -2.5f;
+    private const float startPos = 6.82f;
 
     private int previous = -1;
 
@@ -43,7 +43,7 @@ public class Spawner2 : MonoBehaviour
     private int combo;
     public float blockMoveTime;
     public GameObject Ceiling = null;
-    private Vector3 CeilingStart = new Vector3(-3, 10, 0);
+    private Vector3 CeilingStart = new Vector3(6.32f, 10, 0);
 
 
     //   private int? prev = null;
@@ -391,24 +391,24 @@ public class Spawner2 : MonoBehaviour
     }*/
     #endregion
 
-    public void Switch(int leftX, int rightX, int cursorY)
+    public void Switch(int leftX2, int rightX2, int cursorY2)
     {
-        int temp = data[cursorY, leftX];
-        data[cursorY, leftX] = data[cursorY, rightX];
-        data[cursorY, rightX] = temp;
+        int temp = data[cursorY2, leftX2];
+        data[cursorY2, leftX2] = data[cursorY2, rightX2];
+        data[cursorY2, rightX2] = temp;
 
-        var tempGO = cubes[cursorY, leftX];
-        cubes[cursorY, leftX] = cubes[cursorY, rightX];
-        cubes[cursorY, rightX] = tempGO;
+        var tempGO = cubes[cursorY2, leftX2];
+        cubes[cursorY2, leftX2] = cubes[cursorY2, rightX2];
+        cubes[cursorY2, rightX2] = tempGO;
 
-        if (cubes[cursorY, leftX])
-            cubes[cursorY, leftX].transform.position = GetPosition(cursorY, leftX);
+        if (cubes[cursorY2, leftX2])
+            cubes[cursorY2, leftX2].transform.position = GetPosition(cursorY2, leftX2);
 
-        if (cubes[cursorY, rightX])
-            cubes[cursorY, rightX].transform.position = GetPosition(cursorY, rightX);
+        if (cubes[cursorY2, rightX2])
+            cubes[cursorY2, rightX2].transform.position = GetPosition(cursorY2, rightX2);
 
-        //iTween.MoveTo(cubes[cursorY, rightX], cubes[cursorY, rightX].transform.position, blockMoveTime);
-        //iTween.MoveTo(cubes[cursorY, leftX], cubes[cursorY, leftX].transform.position, blockMoveTime);
+        //iTween.MoveTo(cubes[cursorY2, rightX2], cubes[cursorY2, rightX2].transform.position, blockMoveTime);
+        //iTween.MoveTo(cubes[cursorY2, leftX2], cubes[cursorY2, leftX2].transform.position, blockMoveTime);
 
         LoopMatch();
     }
@@ -595,7 +595,7 @@ public class Spawner2 : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game Over");
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
     }
 
     public int GenerateBlock(int y, int x, int avoidIndex)
