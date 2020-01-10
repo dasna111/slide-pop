@@ -14,8 +14,8 @@ public class CursorControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        leftX = (int)transform.position.x + 2;
-        rightX = (int)transform.position.x + 3;
+        leftX = (int)transform.localPosition.x + 2;
+        rightX = (int)transform.localPosition.x + 3;
         cursorY = (int)transform.position.y;
 
         if (Input.GetKeyDown(KeyCode.Q))
