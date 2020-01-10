@@ -21,19 +21,19 @@ public class CursorControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
             SceneManager.LoadScene(0);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W))
             if (transform.position.y < 10)
                 transform.position += new Vector3(0, 1, 0);
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.S))
             if (transform.position.y > 0)
                 transform.position += new Vector3(0, -1, 0);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A))
             if (transform.position.x > -2)
                 transform.position += new Vector3(-1, 0, 0);
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D))
             if (transform.position.x < 2)
                 transform.position += new Vector3(1, 0, 0);
 
