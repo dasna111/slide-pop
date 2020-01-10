@@ -14,8 +14,8 @@ public class CursorControls2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        leftX2 = (int)transform.position.x + 2;
-        rightX2 = (int)transform.position.x + 3;
+        leftX2 = (int)transform.localPosition.x +2;
+        rightX2 = (int)transform.localPosition.x + 3;
         cursorY2 = (int)transform.position.y;
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -38,7 +38,7 @@ public class CursorControls2 : MonoBehaviour
                 transform.position += new Vector3(1, 0, 0);
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
             Spawner2.Instance.Switch(leftX2, rightX2, cursorY2);
     }
 }
