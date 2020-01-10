@@ -108,6 +108,14 @@ public class Spawner2 : MonoBehaviour
         MiniGame(Won);
         Ceiling.transform.position = CeilingStart;
     }
+    public void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Ceiling.transform.position += new Vector3(0, -1, 0);
+            height--;
+        }
+    }
     public void MiniGame(object won)
     {
         MiniGameTimer -= combo;
