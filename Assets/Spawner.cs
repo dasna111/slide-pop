@@ -42,7 +42,7 @@ public class Spawner : MonoBehaviour
     private float MiniGameTimer;
     private int combo;
     public float blockMoveTime;
-    public GameObject Ceiling = null;
+    public GameObject Ceilings = null;
     private Vector3 CeilingStart = new Vector3(-3, 10, 0);
 
 
@@ -106,7 +106,8 @@ public class Spawner : MonoBehaviour
         }
         LoopMatch();
         MiniGame(Won);
-        Ceiling.transform.position = CeilingStart;
+        Ceiling.Asign(Player1, Player2);
+        Ceilings.transform.position = CeilingStart;
     }
     public void FixedUpdate()
     {
