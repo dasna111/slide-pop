@@ -638,7 +638,7 @@ public class Spawner : MonoBehaviour
         Debug.Log("Game Over");
         GameOvers.Play();
         Victory.Play();
-        //SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public int GenerateBlock(int y, int x, int avoidIndex)

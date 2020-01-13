@@ -75,6 +75,7 @@
     <Compile Include="Assets\DukeMiniGame\PlayerMoves.cs" />
     <Compile Include="Assets\Fighter\Combo.cs" />
     <Compile Include="Assets\Grid.cs" />
+    <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\Player_Vampire.cs" />
     <Compile Include="Assets\Player1.cs" />
     <Compile Include="Assets\Player2.cs" />
