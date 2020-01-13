@@ -64,7 +64,6 @@
   <ItemGroup>
     <Compile Include="Assets\Bullet_Vampire.cs" />
     <Compile Include="Assets\BulletSpawner.cs" />
-    <Compile Include="Assets\Ceiling.cs" />
     <Compile Include="Assets\Characters.cs" />
     <Compile Include="Assets\CharacterSelect.cs" />
     <Compile Include="Assets\Cowboi\QuickDraw.cs" />

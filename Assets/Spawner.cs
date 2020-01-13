@@ -45,6 +45,26 @@ public class Spawner : MonoBehaviour
     public GameObject Ceilings = null;
     private Vector3 CeilingStart = new Vector3(-3, 10, 0);
 
+    public GameObject Level;
+    public GameObject SniperGame;
+
+    public AudioSource Starts;
+    public AudioSource GameOvers;
+    public AudioSource Panics;
+    public AudioSource CellingGoesDown;
+
+    public AudioSource Combo1;
+    public AudioSource Combo2;
+    public AudioSource Combo3;
+    public AudioSource Combo4;
+    public AudioSource Combo5;
+    public AudioSource ComboFanfare;
+    public AudioSource FourPlus;
+    public AudioSource BasicCombo;
+
+    public AudioSource Victory;
+    public AudioSource Theme;
+
 
     //   private int? prev = null;
     //   private int? curr = null;
@@ -82,7 +102,7 @@ public class Spawner : MonoBehaviour
         //    {-1 ,-1 ,-1 ,-1 ,-1 ,-1},
         //};
 
-
+        Starts.Play();
         data = new int[height, width];
         cubes = new GameObject[height, width];
 
@@ -105,32 +125,27 @@ public class Spawner : MonoBehaviour
             }
         }
         LoopMatch();
-        MiniGame(Won);
-        Ceiling.Asign(Player1, Player2);
         Ceilings.transform.position = CeilingStart;
-    }
-    public void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Ceiling.transform.position += new Vector3(0, -1, 0);
-            height--;
-        }
     }
     public void MiniGame(object won)
     {
         MiniGameTimer -= combo;
         MiniGameTimer -= Time.deltaTime;
+        /*
         if (Input.GetKeyDown(KeyCode.M)) {
-            Ceiling.transform.position += new Vector3(0, -1, 0);
+            Ceilings.transform.position += new Vector3(0, -1, 0);
         }
+        */
         if (MiniGameTimer <= 0)
-        {
-            //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y - 20, Camera.main.transform.position.z); // Mini game should be 20 lines lower than actual game
+        { 
+            Level.SetActive(false);
+            SniperGame.SetActive(true);
+            SpawnerTimer = -10;
             if (Won)
             {
                 height--;
-                Ceiling.transform.position += new Vector3(0, -1, 0);
+                Ceilings.transform.position += new Vector3(0, -1, 0);
+                CellingGoesDown.Play();
                 Won = false;
             }
         }
@@ -145,6 +160,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
+        Theme.Play();
         SpawnNewLineLoop();
     }
 
@@ -182,7 +198,24 @@ public class Spawner : MonoBehaviour
         FallDown();
         if (matchs.Count > 3) // matchs
         {
+            BasicCombo.Play();
+            if (matchs.Count > 4)
+                FourPlus.Play();
             combo = combo * matchs.Count;
+            if (combo == 1)
+                Combo1.Play();
+            if (combo == 2)
+                Combo2.Play();
+            if (combo == 3)
+                Combo3.Play();
+            if (combo == 4)
+                Combo4.Play();
+            if (combo > 4)
+            {
+                Combo5.Play();
+                ComboFanfare.Play();
+            }
+
             MiniGame(Won);
         }
         Matching = true;
@@ -592,6 +625,7 @@ public class Spawner : MonoBehaviour
     {
         PanicSpawn = 90;
         PanicTimer -= Time.deltaTime;
+        Panics.Play();
         if (PanicTimer < 0)
             GameOver();
         else
@@ -602,7 +636,9 @@ public class Spawner : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game Over");
-        SceneManager.LoadScene(0);
+        GameOvers.Play();
+        Victory.Play();
+        //SceneManager.LoadScene(1);
     }
 
     public int GenerateBlock(int y, int x, int avoidIndex)

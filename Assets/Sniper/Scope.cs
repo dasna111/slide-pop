@@ -11,18 +11,35 @@ public class Scope : MonoBehaviour
     public int ammo;
     public GameObject Bullet;
     public GameObject Game;
+    public GameObject Level;
+    public Spawner MainGameScript;
     private float timer = 0;
     public int targetCount;
+    private object Won;
+    public Text TimerLabel;
+    public float CountDown = 5f;
+    public AudioSource SniperMiniGame;
+    public AudioSource TriggerLightning;
+
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        StartTimer();
+    }
+
+    private void StartTimer()
+    {
+        CountDown -= Time.fixedDeltaTime;
+        SniperMiniGame.Play();
+        TriggerLightning.Play();
+        TimerLabel.text = CountDown.ToString();
     }
     // Update is called once per frame
     void FixedUpdate()
     {
         Vector3 pos = rb2d.position;
-        if (Input.GetKeyDown("space") && ammo > 0)
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) && ammo > 0)
         {
             Instantiate(Bullet,pos, Quaternion.identity);
             rb2d.AddForce(transform.up * Power);
@@ -51,11 +68,13 @@ public class Scope : MonoBehaviour
     private void GameOver()
     {
         Game.SetActive(false);
-        //TODO reference to main script
+        Level.SetActive(true);
     }
-    private void GameWin()
+    public void GameWin()
     {
         Game.SetActive(false);
-        //TODO reference to main script
+        Spawner Ceiling = MainGameScript.GetComponent<Spawner>();
+        Won = true;
+        Ceiling.MiniGame(Won);
     }
 }

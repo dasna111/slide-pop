@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 public class CursorControls : MonoBehaviour
 {
     public static int leftX, rightX, cursorY;
-
+    public AudioSource Swap;
+    public AudioSource Moves1;
+    public AudioSource Moves2;
     // Use this for initialization
     void Start()
     {
@@ -18,27 +20,39 @@ public class CursorControls : MonoBehaviour
         rightX = (int)transform.localPosition.x + 3;
         cursorY = (int)transform.position.y;
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            SceneManager.LoadScene(0);
-
         if (Input.GetKeyDown(KeyCode.W))
             if (transform.position.y < 10)
+            {
                 transform.position += new Vector3(0, 1, 0);
+                Moves1.Play();
+            }
 
         if (Input.GetKeyDown(KeyCode.S))
             if (transform.position.y > 0)
+            {
                 transform.position += new Vector3(0, -1, 0);
+                Moves1.Play();
+            }
 
         if (Input.GetKeyDown(KeyCode.A))
             if (transform.position.x > -2)
+            {
                 transform.position += new Vector3(-1, 0, 0);
+                Moves2.Play();
+            }
 
         if (Input.GetKeyDown(KeyCode.D))
             if (transform.position.x < 2)
+            {
                 transform.position += new Vector3(1, 0, 0);
+                Moves2.Play();
+            }
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Swap.Play();
             Spawner.Instance.Switch(leftX, rightX, cursorY);
+        }
     }
 }
