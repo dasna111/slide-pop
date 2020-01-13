@@ -63,7 +63,6 @@ public class Spawner2 : MonoBehaviour
     public AudioSource BasicCombo;
 
     public AudioSource Victory;
-    public AudioSource Theme;
 
     //   private int? prev = null;
     //   private int? curr = null;
@@ -159,7 +158,6 @@ public class Spawner2 : MonoBehaviour
     void Update()
     {
         SpawnNewLineLoop();
-        Theme.Play();
     }
 
     private void SpawnNewLineLoop()
