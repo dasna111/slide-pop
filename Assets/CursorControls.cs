@@ -49,7 +49,7 @@ public class CursorControls : MonoBehaviour
             }
 
 
-                if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Swap.Play();
             Spawner.Instance.Switch(leftX, rightX, cursorY);

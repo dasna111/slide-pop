@@ -43,10 +43,12 @@ public class Spawner : MonoBehaviour
     private int combo;
     public float blockMoveTime;
     public GameObject Ceilings = null;
-    private Vector3 CeilingStart = new Vector3(-3, 10, 0);
+    private Vector3 CeilingStart = new Vector3(6.32f, 10.5f, 0);
 
     public GameObject Level;
     public GameObject SniperGame;
+    public GameObject CursorUp;
+    public GameObject EnemyBlock;
 
     public AudioSource Starts;
     public AudioSource GameOvers;
@@ -126,6 +128,9 @@ public class Spawner : MonoBehaviour
         }
         LoopMatch();
         Ceilings.transform.position = CeilingStart;
+        int i = 0;
+        i = Random.Range(0, Theme.Length);
+        Theme[i].Play();
     }
     public void MiniGame(object won)
     {
@@ -137,17 +142,17 @@ public class Spawner : MonoBehaviour
         }
         */
         if (MiniGameTimer <= 0)
-        { 
-            Level.SetActive(false);
-            SniperGame.SetActive(true);
-            SpawnerTimer = -10;
-            if (Won)
-            {
-                height--;
+        {
+            //Level.SetActive(false);
+            //SniperGame.SetActive(true);
+            //SpawnerTimer = -10;
+            //if (Won)
+            // {
+            EnemyBlock.height--;
                 Ceilings.transform.position += new Vector3(0, -1, 0);
                 CellingGoesDown.Play();
                 Won = false;
-            }
+            //}
         }
     }
 
@@ -160,9 +165,6 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        int i = -1;
-        i = Random.Range(0, Theme.Length);
-        Theme[i].Play();
         SpawnNewLineLoop();
     }
 
@@ -181,6 +183,7 @@ public class Spawner : MonoBehaviour
         if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.Z))
             return;
         SpawnNewLine();
+        CursorUp.transform.position += new Vector3(0, 1, 0);
         SpawnerTimer = 0;
     }
 
@@ -620,6 +623,7 @@ public class Spawner : MonoBehaviour
             data[row, x] = GenerateBlock(row, x, -1);
             cubes[row, x] = Instantiate(blocks[data[row, x]], GetPosition(row, x), Quaternion.identity);
         }
+
         LoopMatch();
     }
 
@@ -627,7 +631,7 @@ public class Spawner : MonoBehaviour
     {
         PanicSpawn = 90;
         PanicTimer -= Time.deltaTime;
-        Panics.Play();
+        //Panics.Play();
         if (PanicTimer < 0)
             GameOver();
         else

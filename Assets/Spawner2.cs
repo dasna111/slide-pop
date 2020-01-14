@@ -43,10 +43,12 @@ public class Spawner2 : MonoBehaviour
     private int combo;
     public float blockMoveTime;
     public GameObject Ceiling = null;
-    private Vector3 CeilingStart = new Vector3(6.32f, 10, 0);
+    private Vector3 CeilingStart = new Vector3(-3, 10.5f, 0);
 
     public GameObject Level;
     public GameObject DukeGame;
+    public GameObject CursorUp;
+    public GameObject Enemy;
 
     public AudioSource Starts;
     public AudioSource GameOvers;
@@ -135,16 +137,16 @@ public class Spawner2 : MonoBehaviour
         }*/
         if (MiniGameTimer <= 0)
         {
-            Level.SetActive(false);
-            DukeGame.SetActive(true);
-            SpawnerTimer = -10;
-            if (Won)
-            {
-                height--;
-                Ceiling.transform.position += new Vector3(0, -1, 0);
+            //Level.SetActive(false);
+            //DukeGame.SetActive(true);
+            //SpawnerTimer = -10;
+            //if (Won)
+            //{
+            Enemy.height--;
+            Ceiling.transform.position += new Vector3(0, -1, 0);
                 CellingGoesDown.Play();
                 Won = false;
-            }
+            //}
         }
     }
 
@@ -175,6 +177,7 @@ public class Spawner2 : MonoBehaviour
         if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.Z))
             return;
         SpawnNewLine();
+        CursorUp.transform.position += new Vector3(0, 1, 0);
         SpawnerTimer = 0;
     }
 
@@ -620,7 +623,7 @@ public class Spawner2 : MonoBehaviour
     {
         PanicSpawn = 90;
         PanicTimer -= Time.deltaTime;
-        Panics.Play();
+        //Panics.Play();
         if (PanicTimer < 0)
             GameOver();
         else
