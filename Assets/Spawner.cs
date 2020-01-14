@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
     private bool Won;
     private string CharacterName;
     private string CharacterGame;
-    private float MiniGameTimer;
+    public float MiniGameTimer;
     private int combo;
     public float blockMoveTime;
     public GameObject Ceilings = null;
@@ -148,7 +148,7 @@ public class Spawner : MonoBehaviour
             //SpawnerTimer = -10;
             //if (Won)
             // {
-            EnemyBlock.height--;
+            EnemyBlock.GetComponent<Spawner2>().height--;
                 Ceilings.transform.position += new Vector3(0, -1, 0);
                 CellingGoesDown.Play();
                 Won = false;
@@ -180,7 +180,7 @@ public class Spawner : MonoBehaviour
                 Debug.Log("PANIC!!!!");
             }
         }
-        if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.Z))
+        if (SpawnerTimer < SpawnEvery + PanicSpawn && !Input.GetKeyDown(KeyCode.F))
             return;
         SpawnNewLine();
         CursorUp.transform.position += new Vector3(0, 1, 0);
